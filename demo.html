@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3つ選んで今夜の1食を決める｜一人暮らし大学生の夜ごはん（試作品）</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--g:#1F7A4D;--gd:#0F3D27;--ink:#1C2B22;--sub:#5B6B61;--paper:#F7FAF6;--leaf:#E3F1E7;--line:#D5E3D9;--card:#FFFFFF;--yolk:#F2B33D;--onG:#FFFFFF}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--g:#5BC08A;--gd:#B9E6CB;--ink:#E7EFE9;--sub:#A3B5A9;--paper:#101813;--leaf:#17261C;--line:#26392C;--card:#151F18;--yolk:#E0A63A;--onG:#0B1A11}}
+:root[data-theme="dark"]{color-scheme:dark;--g:#5BC08A;--gd:#B9E6CB;--ink:#E7EFE9;--sub:#A3B5A9;--paper:#101813;--leaf:#17261C;--line:#26392C;--card:#151F18;--yolk:#E0A63A;--onG:#0B1A11}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP","Meiryo UI",Meiryo,system-ui,sans-serif;font-weight:500;color:var(--ink);background:var(--paper);line-height:1.85;font-size:17px;letter-spacing:.02em;-webkit-font-smoothing:antialiased}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--yolk);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+header{padding:16px 20px;text-align:center;font-weight:700;font-size:14px;color:var(--g);border-bottom:1px solid var(--line)}
+.wrap{max-width:600px;margin:0 auto;padding:28px 20px 64px}
+.bar{height:4px;background:var(--line);border-radius:999px;margin-bottom:10px;overflow:hidden}
+.bar i{display:block;height:4px;background:var(--g);width:33%;transition:width .3s}
+.step{font-size:13px;color:var(--sub);margin-bottom:10px;font-weight:700}
+h1{font-size:clamp(22px,5.6vw,28px);font-weight:900;line-height:1.45;margin:0 0 22px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;margin:10px 0;font-size:17px;font-weight:500;cursor:pointer;font-family:inherit;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--g)}
+.opt.on{border-color:var(--g);background:var(--leaf);font-weight:700}
+.opt.on:after{content:" ✓";color:var(--g)}
+.hint{font-size:14px;color:var(--sub);margin:-12px 0 10px}
+.next{display:block;width:100%;background:var(--g);color:var(--onG);border:0;border-radius:14px;padding:16px;font-size:17px;font-weight:700;margin-top:18px;cursor:pointer;font-family:inherit}
+.next:disabled{opacity:.35;cursor:default}
+.tag{display:inline-block;background:var(--leaf);color:var(--gd);border-radius:8px;padding:3px 10px;font-size:13.5px;margin:0 6px 8px 0;font-weight:700}
+.sample{display:inline-block;background:var(--yolk);color:#2B2000;font-size:12px;border-radius:6px;padding:1px 8px;margin-left:10px;font-weight:700;vertical-align:middle;letter-spacing:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px;margin:18px 0}
+.card h2{font-size:20px;font-weight:900;margin:0 0 6px;line-height:1.45}
+.meta{font-size:13.5px;color:var(--sub);margin-bottom:10px;line-height:1.7}
+.card ol{margin:8px 0 14px;padding-left:22px}
+.card li{margin:2px 0}
+.tmr{border-top:1px dashed var(--line);padding-top:12px;font-size:15px}
+.tmr b{color:var(--g)}
+.left{background:var(--leaf);border-radius:12px;padding:12px 16px;font-size:15px;margin:8px 0 0}
+.note{font-size:13.5px;color:var(--sub)}
+.ask{background:var(--gd);color:var(--paper);border-radius:20px;padding:26px 22px;margin-top:28px;text-align:center}
+.yn button{background:transparent;border:1.5px solid #9FC9B0;color:var(--paper);border-radius:12px;padding:9px 20px;margin:6px;font-size:16px;cursor:pointer;font-family:inherit;font-weight:700}
+.yn button.on{background:var(--paper);color:var(--gd);border-color:var(--paper)}
+#thanks{color:#C7DECF}
+.btn{display:inline-block;background:var(--yolk);color:#2B2000;font-weight:700;padding:15px 24px;border-radius:14px;text-decoration:none;font-size:16px;line-height:1.5;margin:14px 0 4px}
+.back{display:block;text-align:center;margin-top:26px;font-size:14px;color:var(--sub)}
+.hide{display:none}
+@media(max-width:480px){.btn{display:block}}
+</style>
+</head>
+<body>
+<header>3つ選んで今夜の1食を決める（試作品）</header>
+<div class="wrap">
+
+ <div id="quiz">
+  <div class="bar"><i id="prog"></i></div>
+  <div class="step" id="stepno"></div>
+  <h1 id="q"></h1>
+  <p class="hint hide" id="hint">3つまで選べます</p>
+  <div id="opts"></div>
+  <button class="next hide" id="next" disabled>次へ</button>
+ </div>
+
+ <div id="result" class="hide">
+  <h1>今夜は、これでどうでしょう<span class="sample">サンプル</span></h1>
+  <div id="tags"></div>
+  <div id="cards"></div>
+  <p class="note">※ 試作品用のサンプルです。話を聞かせてくださった方の声をもとに、作り直していきます。</p>
+  <div class="ask">
+   <p style="margin:0 0 6px;font-weight:bold">疲れて帰った夜に、これは役に立ちそうですか？</p>
+   <div class="yn"><button data-v="yes">役に立ちそう</button><button data-v="no">あまり役に立たない</button></div>
+   <p id="thanks" class="hide" style="margin:10px 0 0">ありがとうございます。理由を、30分のお話で聞かせていただけませんか。</p>
+   <a id="form" class="btn" href="https://forms.gle/NW8HYTz2iiREw7Gr9" target="_blank" rel="noopener">話を聞かせてください（30分・オンライン）</a>
+  </div>
+  <a class="back" href="LP.html">← 最初のページに戻る</a>
+ </div>
+</div>
+
+<script>
+// ===== 質問（ルール表の左側）。食材だけ3つまで選べる =====
+const QUESTIONS = [
+ {key:"food", multi:3, q:"冷蔵庫にある食材は？", opts:[["moyashi","もやし"],["chicken","鶏むね肉"],["cabbage","キャベツ"],["pork","豚肉"],["udon","冷凍うどん"]]},
+ {key:"time", q:"今夜、料理にかけられる時間は？", opts:[["5","5分"],["10","10分"],["15","15分"]]},
+ {key:"seas", q:"家にある調味料は？", opts:[["1","塩こしょうだけ"],["2","醤油もある"],["3","ほぼ何でもある（ごま油・ポン酢・めんつゆなど）"]]}
+];
+const FOODNAME = Object.fromEntries(QUESTIONS[0].opts);
+// ===== 献立のサンプル（試作品用。foods＝使う食材、seas＝必要な調味料の段階 1:塩こしょう 2:＋醤油 3:その他） =====
+const MEALS = [
+ // --- 食材1つの献立 ---
+ {foods:["moyashi"],seas:1,time:5, name:"もやしの塩こしょうレンジ蒸し", wash:"耐熱皿1枚",
+  steps:["耐熱皿にもやしを広げ、塩こしょうをふる","ラップをしてレンジで3分"], tmr:"残ったもやしは、明日レンジで蒸して醤油か塩こしょうで。袋を開けたら早めに使い切るのがおすすめです"},
+ {foods:["moyashi"],seas:2,time:5, name:"もやしのレンジ醤油和え", wash:"耐熱皿1枚",
+  steps:["耐熱皿にもやしを入れ、ラップをしてレンジで3分","水気を切って、醤油をかけて混ぜる"], tmr:"残ったもやしは、明日は塩こしょうでレンジ蒸しに。味を変えると続けて食べても飽きにくくなります"},
+ {foods:["moyashi"],seas:3,time:10, name:"もやしのごま油ナムル", wash:"耐熱皿1枚",
+  steps:["もやしをレンジで3分加熱し、水気を切る","ごま油・塩こしょう・醤油少しで和える"], tmr:"多めに作って、明日の分は冷蔵庫へ。翌日はそのまま副菜になります"},
+ {foods:["chicken"],seas:1,time:10, name:"鶏むね肉の塩こしょう焼き", wash:"フライパン1つ・包丁・まな板",
+  steps:["鶏むね肉を薄めのそぎ切りにする","塩こしょうをふり、フライパンで両面を焼く"], tmr:"使わなかった鶏むね肉は、1回分ずつラップに包んで冷凍。次は醤油焼きにできます"},
+ {foods:["chicken"],seas:2,time:15, name:"鶏むね肉の醤油焼き", wash:"フライパン1つ・包丁・まな板",
+  steps:["鶏むね肉をそぎ切りにして焼く","火が通ったら醤油を回しかけてからめる"], tmr:"残りは1回分ずつ冷凍。明日は塩こしょう焼きにして味を変えられます"},
+ {foods:["chicken"],seas:3,time:15, name:"鶏むね肉のレンジ蒸し ポン酢がけ", wash:"耐熱皿1枚・包丁・まな板",
+  steps:["鶏むね肉に塩こしょうをして耐熱皿にのせる","ラップをしてレンジで加熱し、中まで火を通す","切ってポン酢をかける"], tmr:"多めに作って冷蔵庫へ。明日はほぐして、うどんやサラダにのせられます"},
+ {foods:["cabbage"],seas:1,time:5, name:"塩もみキャベツ", wash:"ボウル1つ・包丁・まな板",
+  steps:["キャベツをざく切りにする","塩をふってもみ、5分ほどおく"], tmr:"キャベツ1玉は、今日は塩もみ、明日は醤油炒め、と味を変えると使い切りやすくなります"},
+ {foods:["cabbage"],seas:2,time:10, name:"キャベツの醤油炒め", wash:"フライパン1つ・包丁・まな板",
+  steps:["キャベツをざく切りにする","フライパンで炒め、醤油で味をつける"], tmr:"残りのキャベツは、明日は塩もみにすれば火を使わずに一品になります"},
+ {foods:["cabbage"],seas:3,time:10, name:"キャベツのコンソメスープ", wash:"鍋1つ・包丁・まな板",
+  steps:["キャベツを食べやすく切り、水と一緒に鍋に入れる","コンソメを入れて、やわらかくなるまで煮る"], tmr:"多めに作れば、明日はそのまま温めるだけ。冷凍うどんを入れてスープうどんにもできます"},
+ {foods:["pork"],seas:1,time:10, name:"豚肉の塩こしょう炒め", wash:"フライパン1つ",
+  steps:["豚肉をフライパンで炒める","塩こしょうで味をつける"], tmr:"使わなかった豚肉は、1回分ずつラップで包んで冷凍。明日は醤油焼きにできます"},
+ {foods:["pork"],seas:2,time:10, name:"豚肉の醤油焼き", wash:"フライパン1つ",
+  steps:["豚肉をフライパンで焼く","醤油を回しかけてからめる"], tmr:"残りは1回分ずつ冷凍。キャベツやもやしと一緒に炒めれば、明日の一品になります"},
+ {foods:["pork"],seas:3,time:10, name:"豚肉の生姜焼き風", wash:"フライパン1つ",
+  steps:["豚肉をフライパンで焼く","醤油・みりん・チューブの生姜を混ぜて、からめる"], tmr:"残りの豚肉は冷凍しておき、明日は塩こしょう炒めに。同じ肉でも味を変えると続けやすくなります"},
+ {foods:["udon"],seas:1,time:5, name:"塩こしょう焼きうどん", wash:"フライパン1つ",
+  steps:["冷凍うどんをレンジで解凍する","フライパンで炒め、塩こしょうで味をつける"], tmr:"冷凍うどんは日持ちするので、もやしやキャベツが余った日に一緒に炒めると使い切れます"},
+ {foods:["udon"],seas:2,time:5, name:"レンジ醤油うどん", wash:"どんぶり1つ",
+  steps:["冷凍うどんをどんぶりに入れ、レンジで解凍する","醤油を少しかけて混ぜる"], tmr:"冷凍うどんは日持ちします。余った野菜があれば、明日は一緒にレンジにかけて具だくさんに"},
+ {foods:["udon"],seas:3,time:5, name:"めんつゆのかけうどん", wash:"どんぶり1つ",
+  steps:["冷凍うどんをどんぶりに入れ、レンジで解凍する","めんつゆとお湯を注ぐ"], tmr:"冷凍うどんは日持ちします。残ったキャベツやもやしをのせれば、明日は具入りに"},
+ // --- 食材2つを一緒に使う献立 ---
+ {foods:["moyashi","cabbage"],seas:1,time:5, name:"もやしとキャベツの塩こしょうレンジ蒸し", wash:"耐熱皿1枚・包丁・まな板",
+  steps:["キャベツをざく切りにし、もやしと一緒に耐熱皿へ","塩こしょうをふり、ラップをしてレンジで4分"], tmr:"野菜2つを一度に使えます。キャベツが残ったら、明日は塩もみに"},
+ {foods:["moyashi","cabbage"],seas:3,time:10, name:"もやしとキャベツのごま油炒め", wash:"フライパン1つ・包丁・まな板",
+  steps:["キャベツをざく切りにする","もやしと一緒にごま油で炒め、塩こしょうと醤油少しで味をつける"], tmr:"残った野菜は、明日うどんにのせれば具だくさんうどんになります"},
+ {foods:["moyashi","pork"],seas:2,time:10, name:"豚もやしの醤油炒め", wash:"フライパン1つ",
+  steps:["豚肉をフライパンで炒める","もやしを加えてさっと炒め、醤油で味をつける"], tmr:"もやしは傷みやすいので今日使い切り、豚肉が残ったら1回分ずつ冷凍に"},
+ {foods:["moyashi","chicken"],seas:1,time:15, name:"鶏むね肉ともやしの塩こしょう炒め", wash:"フライパン1つ・包丁・まな板",
+  steps:["鶏むね肉を細めに切り、フライパンで炒める","火が通ったらもやしを加え、塩こしょうで味をつける"], tmr:"鶏むね肉が残ったら、1回分ずつ冷凍。明日は醤油焼きにできます"},
+ {foods:["pork","cabbage"],seas:1,time:10, name:"豚キャベツの塩こしょう炒め", wash:"フライパン1つ・包丁・まな板",
+  steps:["キャベツをざく切りにする","豚肉を炒め、キャベツを加えて、塩こしょうで味をつける"], tmr:"キャベツが残ったら、明日は塩もみか醤油炒めに"},
+ {foods:["pork","cabbage"],seas:3,time:10, name:"豚キャベツの味噌炒め", wash:"フライパン1つ・包丁・まな板",
+  steps:["キャベツをざく切りにする","豚肉とキャベツを炒め、味噌と少しの水を混ぜたものでからめる"], tmr:"キャベツが残ったら、明日はコンソメスープにすると一気に使えます"},
+ {foods:["chicken","cabbage"],seas:3,time:15, name:"鶏むね肉とキャベツのレンジ蒸し ポン酢がけ", wash:"耐熱皿1枚・包丁・まな板",
+  steps:["キャベツをざく切りにして耐熱皿に敷き、薄く切った鶏むね肉をのせる","塩こしょうをふり、ラップをしてレンジで加熱し、中まで火を通す","ポン酢をかける"], tmr:"火を使わず、洗い物も少なめ。キャベツが残ったら明日は塩もみに"},
+ {foods:["udon","cabbage"],seas:2,time:10, name:"キャベツ入り醤油焼きうどん", wash:"フライパン1つ・包丁・まな板",
+  steps:["冷凍うどんをレンジで解凍し、キャベツをざく切りにする","キャベツを炒め、うどんを加えて醤油で味をつける"], tmr:"キャベツが残ったら、明日は塩もみに。冷凍うどんは日持ちします"},
+ {foods:["udon","moyashi"],seas:1,time:10, name:"もやし入り塩焼きうどん", wash:"フライパン1つ",
+  steps:["冷凍うどんをレンジで解凍する","もやしを炒め、うどんを加えて塩こしょうで味をつける"], tmr:"もやしは傷みやすいので、今日うどんと一緒に使い切るのがおすすめです"},
+ {foods:["udon","pork"],seas:3,time:10, name:"豚肉のめんつゆうどん", wash:"鍋1つ・どんぶり1つ",
+  steps:["鍋で豚肉をさっと煮て、めんつゆで味をつける","レンジで解凍した冷凍うどんにかける"], tmr:"豚肉が残ったら、1回分ずつ冷凍。明日は醤油焼きにできます"},
+ {foods:["udon","chicken"],seas:2,time:15, name:"鶏むね肉の醤油焼きうどん", wash:"フライパン1つ・包丁・まな板",
+  steps:["鶏むね肉を細めに切って炒める","レンジで解凍した冷凍うどんを加え、醤油で味をつける"], tmr:"鶏むね肉が残ったら、1回分ずつ冷凍に"}
+];
+// ===== 画面の動き =====
+const ans = {}; let i = 0;
+const $ = id => document.getElementById(id);
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function show(){
+ const Q = QUESTIONS[i];
+ $("prog").style.width = ((i+1)/QUESTIONS.length*100)+"%";
+ $("stepno").textContent = "質問 "+(i+1)+" / "+QUESTIONS.length;
+ $("q").textContent = Q.q;
+ $("opts").innerHTML = "";
+ $("hint").classList.toggle("hide", !Q.multi);
+ $("next").classList.toggle("hide", !Q.multi);
+ const picked = [];
+ Q.opts.forEach(([v,label])=>{
+  const b = document.createElement("button"); b.className="opt"; b.textContent=label;
+  b.onclick = ()=>{
+   if(Q.multi){
+    const k = picked.indexOf(v);
+    if(k>=0){picked.splice(k,1); b.classList.remove("on");}
+    else if(picked.length<Q.multi){picked.push(v); b.classList.add("on");}
+    $("next").disabled = picked.length===0;
+    return;
+   }
+   ans[Q.key]={v,label}; i++; (i<QUESTIONS.length)?show():result();
+  };
+  $("opts").appendChild(b);
+ });
+ if(Q.multi){
+  $("next").disabled = true;
+  $("next").onclick = ()=>{ ans[Q.key]={v:picked.slice(),label:picked.map(x=>FOODNAME[x]).join("・")}; i++; show(); };
+ }
+ window.scrollTo(0,0);
+}
+// ルール：選んだ食材だけで作れるもの → 持っている調味料で作れるもの
+// → 時間に収まるものを先に → 選んだ食材を多く使うものを先に → 調味料を多く使えるものを先に
+function pick(foods, t, s){
+ return MEALS.filter(m=>m.foods.every(f=>foods.includes(f)) && m.seas<=s)
+  .sort((a,b)=>((a.time>t)-(b.time>t)) || (b.foods.length-a.foods.length) || (b.seas-a.seas) || (a.time-b.time))
+  .slice(0,2);
+}
+function result(){
+ $("quiz").classList.add("hide"); $("result").classList.remove("hide");
+ $("tags").innerHTML = Object.values(ans).map(a=>'<span class="tag">'+esc(a.label)+'</span>').join("");
+ const foods = ans.food.v, t = +ans.time.v, s = +ans.seas.v;
+ const list = pick(foods, t, s);
+ const used = new Set(list.flatMap(m=>m.foods));
+ const left = foods.filter(f=>!used.has(f)).map(f=>FOODNAME[f]);
+ $("cards").innerHTML = list.map(m=>
+  '<div class="card"><h2>'+esc(m.name)+'</h2>'+
+  '<div class="meta">約'+m.time+'分'+(m.time>t?'（選んだ時間より少しかかります）':'')+'｜使う食材：'+m.foods.map(f=>FOODNAME[f]).join("・")+'｜洗い物：'+esc(m.wash)+'</div>'+
+  '<ol>'+m.steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>'+
+  '<div class="tmr"><b>残った食材は明日：</b>'+esc(m.tmr)+'</div></div>').join("")
+  + (left.length ? '<p class="left">今回の献立で使わなかった食材：<b>'+esc(left.join("・"))+'</b>（明日の候補にどうぞ）</p>' : '');
+ window.scrollTo(0,0);
+}
+document.querySelectorAll(".yn button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll(".yn button").forEach(x=>x.classList.remove("on")); b.classList.add("on");
+ $("thanks").classList.remove("hide");
+});
+show();
+</script>
+</body>
+</html>

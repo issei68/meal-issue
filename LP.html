@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>冷蔵庫にあるもので、今夜の1食が決まる｜一人暮らし大学生の夜ごはん（試作品）</title>
+<meta name="description" content="「今日、何作ろう…」を考えなくていい。疲れて帰った一人暮らしの大学生が、冷蔵庫の食材と家にある調味料を選ぶだけで今夜の1食が決まる仕組みを試作しています。3つ選んで1分。">
+<link rel="canonical" href="https://meal-issue.vercel.app/LP.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="冷蔵庫にあるもので、今夜の1食が決まる">
+<meta property="og:description" content="「今日、何作ろう…」を考えなくていい。3つ選んで1分で試せる試作品です。">
+<meta property="og:image" content="https://meal-issue.vercel.app/ogp.png">
+<meta property="og:url" content="https://meal-issue.vercel.app/LP.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--g:#1F7A4D;--gd:#0F3D27;--ink:#1C2B22;--sub:#5B6B61;--paper:#F7FAF6;--leaf:#E3F1E7;--line:#D5E3D9;--card:#FFFFFF;--yolk:#F2B33D;--onG:#FFFFFF}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--g:#5BC08A;--gd:#B9E6CB;--ink:#E7EFE9;--sub:#A3B5A9;--paper:#101813;--leaf:#17261C;--line:#26392C;--card:#151F18;--yolk:#E0A63A;--onG:#0B1A11}}
+:root[data-theme="dark"]{color-scheme:dark;--g:#5BC08A;--gd:#B9E6CB;--ink:#E7EFE9;--sub:#A3B5A9;--paper:#101813;--leaf:#17261C;--line:#26392C;--card:#151F18;--yolk:#E0A63A;--onG:#0B1A11}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP","Meiryo UI",Meiryo,system-ui,sans-serif;font-weight:500;color:var(--ink);background:var(--paper);line-height:1.85;font-size:17px;letter-spacing:.02em;-webkit-font-smoothing:antialiased}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--yolk);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+.hero{padding:56px 0 64px;border-bottom:1px solid var(--line)}
+.brand{display:inline-block;font-size:13px;font-weight:700;color:var(--g);border:1.5px solid var(--g);border-radius:999px;padding:2px 12px;margin:0 0 28px}
+.hero h1{font-size:clamp(28px,6.4vw,46px);line-height:1.38;font-weight:900;letter-spacing:.01em;margin:0 0 22px;color:var(--ink)}
+.hero h1 span{color:inherit}
+.hero p{margin:0 0 30px;max-width:34em;color:var(--sub)}
+.btn{display:inline-block;background:var(--g);color:var(--onG);font-weight:700;padding:17px 30px;border-radius:14px;text-decoration:none;font-size:17px;line-height:1.5;transition:transform .15s,background .15s}
+.btn:hover{background:var(--gd);color:var(--paper)}
+.btn:active{transform:translateY(1px)}
+.small{font-size:13px;color:var(--sub);margin:18px 0 0!important}
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+h2{font-size:24px;font-weight:900;margin:0 0 24px;line-height:1.4}
+.cards{display:grid;gap:0;border-top:1px solid var(--line)}
+.cards div{padding:16px 0 16px 34px;border-bottom:1px solid var(--line);position:relative}
+.cards div:before{content:"";position:absolute;left:4px;top:24px;width:14px;height:8px;border-left:3px solid var(--g);border-bottom:3px solid var(--g);transform:rotate(-45deg)}
+blockquote{margin:0 0 28px;padding:0 0 0 22px;border-left:4px solid var(--g);font-size:19px;font-weight:700;line-height:1.75}
+blockquote cite{display:block;font-style:normal;color:var(--sub);font-size:13.5px;font-weight:500;margin-top:10px}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 20px}
+.stat div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.stat b{display:block;font-size:36px;font-weight:900;color:var(--g);line-height:1.2;letter-spacing:0}
+.stat small{display:block;color:var(--sub);font-size:13px;line-height:1.6;margin-top:6px}
+.src{font-size:13px;color:var(--sub)}
+.src a{color:var(--g);font-weight:700}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+.cmp>div{padding:22px 22px 24px;background:var(--card)}
+.cmp>div.new{background:var(--gd);color:var(--paper)}
+.cmp h3{margin:0 0 10px;font-size:15px;font-weight:700;color:var(--sub)}
+.cmp .new h3{color:var(--yolk)}
+.cmp dl{margin:0}
+.cmp dt{font-size:12.5px;color:var(--sub);margin-top:14px}
+.cmp .new dt{color:#9FC9B0}
+.cmp dd{margin:2px 0 0;line-height:1.65}
+.cmp .new dd{font-weight:700}
+.note{font-size:14px;color:var(--sub);margin-top:16px}
+.try{background:var(--leaf);border-radius:20px;padding:36px 28px;margin:56px 0 0}
+.try h2{margin-bottom:14px}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.steps span{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:14.5px;font-weight:700}
+.try p{color:var(--sub);margin:0 0 22px}
+details{border-bottom:1px solid var(--line);padding:16px 0}
+details:first-of-type{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-weight:700;list-style:none;position:relative;padding-right:28px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";position:absolute;right:4px;top:-2px;font-size:22px;color:var(--g);font-weight:500}
+details[open] summary:after{content:"−"}
+details p{margin:10px 0 0;color:var(--sub)}
+.cta{background:var(--gd);color:var(--paper);padding:56px 0 60px;margin-top:56px}
+.cta h2{color:var(--paper);margin-bottom:12px}
+.cta p{color:#C7DECF;margin:0 0 26px}
+.btn.white{background:var(--yolk);color:#2B2000}
+.btn.white:hover{background:#FFD27A;color:#2B2000}
+footer{padding:24px;font-size:12.5px;color:var(--sub);text-align:center}
+@media(max-width:600px){body{font-size:16px}.wrap{padding:0 20px}.hero{padding:40px 0 48px}.stat,.cmp{grid-template-columns:1fr}.btn{display:block;text-align:center;padding:16px 18px}h2{font-size:21px}blockquote{font-size:17px}.try{padding:28px 20px}}
+</style>
+</head>
+<body>
+
+<!-- ① トップ：読み手の言葉にした仮説1行 ＋ ボタン1つ -->
+<div class="hero"><div class="wrap">
+ <p class="brand">一人暮らし大学生の夜ごはん（試作品）</p>
+ <h1>「<span>今日、何作ろう…</span>」を考えなくていい。<br>冷蔵庫にあるもので、今夜の1食が決まる。</h1>
+ <p>冷蔵庫の食材、かけられる時間、家にある調味料。3つ選ぶだけで、今あるものだけで作れる1食と、残った食材の明日の使い道が分かります。</p>
+ <a class="btn" href="demo.html?from=hero">3つ選んで今夜の1食を決める（1分）</a>
+ <p class="small">これは試作品です。登録も、名前の入力もいりません。</p>
+</div></div>
+
+<main class="wrap">
+
+<!-- ② このページは誰のためか -->
+<section>
+ <h2>こんな人のためのページです</h2>
+ <div class="cards">
+  <div>一人暮らしで、授業やバイトのあとクタクタになって帰ってくる大学生</div>
+  <div>献立を考えるのが面倒で、気づくと同じようなものばかり食べている</div>
+  <div>張り切って買った食材を、使い切れずに腐らせてしまったことがある</div>
+ </div>
+</section>
+
+<!-- ③ 今起きていること：第6回の情報サイトを短く -->
+<section>
+ <h2>今、起きていること</h2>
+ <blockquote>「正直、もう食事自体が『作業』になっちゃってますね……。楽しみというより、ただ『お腹が減ったから作業的に燃料補給する』みたいな感覚です」
+ <cite>大学2年生・一人暮らし（インタビューより、本人の許可を得て匿名で掲載）</cite></blockquote>
+ <div class="stat">
+  <div><b>209g</b><small>20〜29歳の1日あたり野菜摂取量（男女計）。前後の年代より少ない</small></div>
+  <div><b>週4〜5日</b><small>インタビューした学生が「昨日も似たようなの食べたな」と思いながら食べている日数</small></div>
+ </div>
+ <p>栄養が偏っていることは、本人も分かっています。足りないのは知識やレシピではなく、疲れた夜に「何を作るか」を考える余力です。</p>
+ <p class="src">出典：厚生労働省「令和4年 国民健康・栄養調査」（年齢階級別の野菜摂取量、男女計）。週4〜5日はインタビューした学生1名の数字です。｜<a href="index.html">この課題をもっと詳しく読む</a></p>
+</section>
+
+<!-- ④ 確かめていること：今のやり方 → 試している方法 -->
+<section>
+ <h2>私たちが確かめていること</h2>
+ <div class="cmp">
+  <div><h3>今のやり方</h3><dl>
+   <dt>献立の決め方</dt><dd>スーパーで安くなっているものを見て、その場で決める</dd>
+   <dt>使う食材</dt><dd>安さにつられてまとめ買いした食材</dd>
+   <dt>その結果</dt><dd>同じような料理が続く。使い切れずに腐らせる</dd></dl></div>
+  <div class="new"><h3>試している方法</h3><dl>
+   <dt>献立の決め方</dt><dd>冷蔵庫の食材と、家にある調味料を選ぶだけ</dd>
+   <dt>使う食材</dt><dd>今、手元にあるものだけ</dd>
+   <dt>その結果</dt><dd>今夜の1食と、残った食材の明日の使い道まで分かる</dd></dl></div>
+ </div>
+ <p class="note">これはまだ仮説です。このページで、合っているかどうかを確かめています。</p>
+</section>
+
+<!-- ⑤ 1分で試す：①と同じボタン -->
+<div class="try">
+ <h2>1分で試してみる</h2>
+ <div class="steps"><span>① 冷蔵庫にある食材</span><span>② 今夜かけられる時間</span><span>③ 家にある調味料</span></div>
+ <p>3つ選ぶと、それだけで作れる1食（サンプル）が表示されます。</p>
+ <a class="btn" href="demo.html?from=middle">3つ選んで今夜の1食を決める（1分）</a>
+</div>
+
+<!-- ⑥ よくある質問 -->
+<section>
+ <h2>よくある質問</h2>
+ <details open><summary>アプリのダウンロードや登録は必要ですか？</summary><p>いいえ。これは試作品で、ブラウザで開くだけで試せます。この仕組みが役に立つかどうかを確かめている段階です。</p></details>
+ <details><summary>表示される献立は本物ですか？</summary><p>試作品用のサンプルで、画面にも「サンプル」と表示しています。話を聞かせてくださった方の声をもとに、これから作り直していきます。</p></details>
+ <details><summary>このページは誰が運営していますか？</summary><p>千葉大学「スタートアップトレーニングⅡ」の受講生が、学習の一環として作成しています。営利目的の勧誘は行いません。</p></details>
+</section>
+</main>
+
+<!-- ⑦ 最後の行動：話を聞かせてください（フォームへ） -->
+<div class="cta"><div class="wrap">
+ <h2>話を聞かせてください</h2>
+ <p>試してみた感想、足りない選択肢、「自分の夜ごはんはこうしている」。<br>30分、オンラインでお話を聞かせていただけませんか。</p>
+ <a class="btn white" href="https://forms.gle/NW8HYTz2iiREw7Gr9" target="_blank" rel="noopener">話を聞かせてください（30分・オンライン）</a>
+</div></div>
+<footer>千葉大学 スタートアップトレーニングⅡ 受講生が学習の一環として作成｜2026年11月</footer>
+</body>
+</html>
